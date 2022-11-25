@@ -17,8 +17,8 @@ int stoint(char s[]) {
 }
 
 void inttob15(int n, char s[]) {
-    int i = 14;
-    for (i = 14; n > 0; i--) {
+    int i = 15;
+    for (i = 15; n > 0; i--) {
         s[i] = (n % 2) + '0';
         n /= 2;
     }
