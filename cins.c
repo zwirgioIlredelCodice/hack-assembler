@@ -14,9 +14,9 @@ void traduci_cins(char sins[], char bins[]) {
     int i = 0;
     if (cond) {
         while (sins[i] != '=') {
-            if (sins[i] == 'M') bins[12] = 1;
-            else if (sins[i] == 'D') bins[11] = 1;
-            else if (sins[i] == 'A') bins[10] = 1;
+            if (sins[i] == 'M') bins[12] = '1';
+            else if (sins[i] == 'D') bins[11] = '1';
+            else if (sins[i] == 'A') bins[10] = '1';
             i++;
         }
         i++; //salta =
@@ -359,5 +359,4 @@ void traduci_cins(char sins[], char bins[]) {
             bins[15] = '1';
         }
     }
-
 }
