@@ -310,7 +310,7 @@ void traduci_cins(char sins[], char bins[]) {
         bins[9] = '1';
     }
     else {
-        printf("la parte c dell espressione non è valida\n");
+        printf("la parte c:%s dell espressione non è valida\n", cpart);
     }
 
     if (conj) {
