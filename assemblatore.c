@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "assemblatore.h"
 #include "ains.h"
 #include "cins.h"
+#include "symboltable.h"
 
 void traduci_ins(char sins[], char bins[]) {
     if (sins[0] == '\0') {
@@ -33,11 +35,39 @@ void insestrai(char linea[]) {
     strcpy(linea, pl);
 }
 
+pst inserisci_etichette(char file[], pst table) {
+    FILE* f;
+    f = fopen(file, "r");
+    char linea[LINEA_LEN];
+    char ic = 0; // contatore instruzioni
+
+    while (fgets(linea, LINEA_LEN, f) != NULL) {
+        insestrai(linea);
+        if (strlen(linea) > 0) {
+            if (linea[0] == '(') {
+                linea[strlen(linea)-1] = '\0'; // toglie )
+                symbol* s = malloc(sizeof(symbol));
+                char* name = malloc(sizeof(char)*strlen(linea));
+                strcpy(name, linea);
+                s->value = ic;
+
+                s_insert(table, s);
+            }
+            else ic++;
+        }
+    }
+    fclose(f);
+}
+
 void assembla(char fin[], char fout[]) {
     FILE* pfin;
     FILE* pfout;
     pfin = fopen(fin, "r");
     pfout = fopen(fout, "w");
+
+    // inizzializza symbol table e inserisce le etichette
+    pst table = s_init();
+    table = inserisci_etichette(fin, table);
 
     char bins[17];
     char linea[LINEA_LEN];

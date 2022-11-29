@@ -1,28 +1,15 @@
 #include <string.h>
 #include <stdlib.h>
+#include "symboltable.h"
 
-typedef struct symbol {
-    int value;
-    char* name;
-} symbol;
-
-typedef struct symboltable {
-    symbol s;
-    struct symboltable* next;
-} symboltable;
-
-typedef symboltable* pst;
-
-pst s_insert(pst st, symbol s) {
+pst s_insert(pst st, symbol* s) {
     pst tpst = malloc(sizeof(symboltable));
     tpst->s = s;
     tpst->next = st;
     return tpst;
 }
 
-#define DEFAULT_SYMBOLS 18
-
-symbol ss[DEFAULT_SYMBOLS] = {
+const symbol ss[DEFAULT_SYMBOLS] = {
 {.value = 16384, .name = "SCREEN"},
 {.value = 24576, .name = "KBD"},
 {.value = 0, .name = "R0"},
@@ -46,7 +33,7 @@ symbol ss[DEFAULT_SYMBOLS] = {
 pst s_init() {
     pst s = NULL;
     for (int i = 0; i < DEFAULT_SYMBOLS; i++) {
-        s = s_insert(s, ss[i]);
+        s = s_insert(s, &ss[i]);
     }
     return s;
 }
@@ -55,7 +42,7 @@ int s_get(pst st, char name[]) {
     int val = -1;
 
     while (st != NULL && val == -1) {
-        if (strcmp(st->s.name, name) == 0) val = st->s.value;
+        if (strcmp(st->s->name, name) == 0) val = st->s->value;
     }
 
     return val;
