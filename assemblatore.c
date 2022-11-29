@@ -6,9 +6,10 @@
 #include "cins.h"
 #include "symboltable.h"
 
-void traduci_ins(char sins[], char bins[], pst t,  int* vi) {
+int traduci_ins(char sins[], char bins[], pst t,  int* vi) {
+    int stato = 0;
     if (sins[0] == '\0' || sins[0] == '(') {
-        // vuota
+        stato = 1;
     }
     else if (sins[0] == '@') {
         // a instruction
@@ -16,6 +17,7 @@ void traduci_ins(char sins[], char bins[], pst t,  int* vi) {
     } else {
         traduci_cins(sins, bins);
     }
+    return stato;
 }
 
 // pulisce la riga da whitespaces e commenti;
@@ -93,8 +95,10 @@ void assembla(char fin[], char fout[]) {
         insestrai(linea);
 
         if (strlen(linea) > 0) {
-            traduci_ins(linea, bins, table, &vi);
-            fprintf(pfout, "%s\n", bins);
+            int stato = traduci_ins(linea, bins, table, &vi);
+            if (stato == 0) {
+                fprintf(pfout, "%s\n", bins);
+            }
         }
     }
     fclose(pfin);
