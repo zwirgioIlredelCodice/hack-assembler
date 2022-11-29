@@ -49,7 +49,7 @@ pst traduci_ains(char sins[], char bins[], pst t,  int* vi) {
             t = s_insert(t, s);
             
             n = *vi;
-            *(vi)++;
+            *vi = *vi + 1;
         }
     }
     inttob15(n, bins);
