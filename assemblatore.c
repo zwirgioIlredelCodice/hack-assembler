@@ -35,28 +35,44 @@ void insestrai(char linea[]) {
     strcpy(linea, pl);
 }
 
+void estrai_etichetta(char ins[], char dest[]) {
+    int i = 1;
+    int di = 0;
+    while (ins[i] != ' ' && ins[i] != '\t' && ins[i] != ')') {
+        dest[di] = ins[i];
+        di++;
+        i++;
+    }
+    dest[di+1] = '\0';
+}
+
 pst inserisci_etichette(char file[], pst table) {
     FILE* f;
     f = fopen(file, "r");
     char linea[LINEA_LEN];
-    char ic = 0; // contatore instruzioni
+    int ic = 0; // contatore instruzioni
 
     while (fgets(linea, LINEA_LEN, f) != NULL) {
         insestrai(linea);
         if (strlen(linea) > 0) {
             if (linea[0] == '(') {
-                linea[strlen(linea)-1] = '\0'; // toglie )
-                symbol* s = malloc(sizeof(symbol));
-                char* name = malloc(sizeof(char)*strlen(linea));
-                strcpy(name, linea+1); // toglie la (
-                s->value = ic;
+                char etichetta[20] = "";
+                estrai_etichetta(linea, etichetta);
 
-                s_insert(table, s);
+                symbol* s = malloc(sizeof(symbol));
+
+                char* name = malloc(sizeof(char)*(strlen(linea)-1));
+                strcpy(name, etichetta); // toglie la (
+                s->value = ic;
+                s->name = name;
+
+                table = s_insert(table, s);
             }
             else ic++;
         }
     }
     fclose(f);
+    return table;
 }
 
 void assembla(char fin[], char fout[]) {
@@ -77,7 +93,6 @@ void assembla(char fin[], char fout[]) {
         insestrai(linea);
 
         if (strlen(linea) > 0) {
-            printf("%s\n", linea);
             traduci_ins(linea, bins, table, &vi);
             fprintf(pfout, "%s\n", bins);
         }

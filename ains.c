@@ -31,26 +31,28 @@ void inttob15(int n, char s[]) {
 }
 
 // funziona sono con i numeri positivi es @-11 non funziona
-void traduci_ains(char sins[], char bins[], pst t,  int* vi) {
+pst traduci_ains(char sins[], char bins[], pst t,  int* vi) {
     int n = 0;
     if (sins[1] >= '0' && sins[1] <= '9') { // se @ seguita da un nymero es @12
         n = stoint(sins+1);
     } else {
-        char name[20];
-        strcpy(name, sins+1); // toglie la @
-        name[strlen(name)-1] = '\0'; // toglie )
-        n = s_get(t, name);
+        
+        
+        n = s_get(t, (sins+1));
         if (n == -1) { // non c'è nella tabella aggiungilo
             symbol* s = malloc(sizeof(symbol));
-            char* pname = malloc(sizeof(char)*strlen(name));
-            strcpy(pname, name);
+            char* pname = malloc(sizeof(char)*strlen(sins+1));
+            strcpy(pname, sins+1);
+            s->name = pname;
             s->value = *vi;
-            s_insert(t, s);
 
+            t = s_insert(t, s);
+            
             n = *vi;
-            *(vi++);
+            *(vi)++;
         }
     }
     inttob15(n, bins);
     bins[0] = '0';
+    return t;
 }

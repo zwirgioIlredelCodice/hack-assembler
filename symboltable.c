@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "symboltable.h"
 
 pst s_insert(pst st, symbol* s) {
@@ -9,7 +10,7 @@ pst s_insert(pst st, symbol* s) {
     return tpst;
 }
 
-const symbol ss[DEFAULT_SYMBOLS] = {
+symbol ss[DEFAULT_SYMBOLS] = {
 {.value = 16384, .name = "SCREEN"},
 {.value = 24576, .name = "KBD"},
 {.value = 0, .name = "R0"},
@@ -33,7 +34,7 @@ const symbol ss[DEFAULT_SYMBOLS] = {
 pst s_init() {
     pst s = NULL;
     for (int i = 0; i < DEFAULT_SYMBOLS; i++) {
-        s = s_insert(s, &ss[i]);
+        s = s_insert(s, &(ss[i]));
     }
     return s;
 }
@@ -43,7 +44,14 @@ int s_get(pst st, char name[]) {
 
     while (st != NULL && val == -1) {
         if (strcmp(st->s->name, name) == 0) val = st->s->value;
+        st = st->next;
     }
-
     return val;
+}
+
+void s_stampa(pst st) {
+    while (st != NULL) {
+        printf("name: %s, value: %d\n", st->s->name, st->s->value);
+        st = st->next;
+    }
 }
