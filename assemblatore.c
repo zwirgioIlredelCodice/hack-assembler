@@ -6,13 +6,13 @@
 #include "cins.h"
 #include "symboltable.h"
 
-void traduci_ins(char sins[], char bins[]) {
-    if (sins[0] == '\0') {
+void traduci_ins(char sins[], char bins[], pst t,  int* vi) {
+    if (sins[0] == '\0' || sins[0] == '(') {
         // vuota
     }
     else if (sins[0] == '@') {
         // a instruction
-        traduci_ains(sins, bins);
+        traduci_ains(sins, bins, t, vi);
     } else {
         traduci_cins(sins, bins);
     }
@@ -48,7 +48,7 @@ pst inserisci_etichette(char file[], pst table) {
                 linea[strlen(linea)-1] = '\0'; // toglie )
                 symbol* s = malloc(sizeof(symbol));
                 char* name = malloc(sizeof(char)*strlen(linea));
-                strcpy(name, linea);
+                strcpy(name, linea+1); // toglie la (
                 s->value = ic;
 
                 s_insert(table, s);
@@ -69,6 +69,8 @@ void assembla(char fin[], char fout[]) {
     pst table = s_init();
     table = inserisci_etichette(fin, table);
 
+    int vi = 16; // index per una numva variabile definita da utente
+
     char bins[17];
     char linea[LINEA_LEN];
     while (fgets(linea, LINEA_LEN, pfin) != NULL) {
@@ -76,7 +78,7 @@ void assembla(char fin[], char fout[]) {
 
         if (strlen(linea) > 0) {
             printf("%s\n", linea);
-            traduci_ins(linea, bins);
+            traduci_ins(linea, bins, table, &vi);
             fprintf(pfout, "%s\n", bins);
         }
     }
