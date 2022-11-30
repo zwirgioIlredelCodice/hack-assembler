@@ -6,14 +6,14 @@
 #include "cins.h"
 #include "symboltable.h"
 
-int traduci_ins(char sins[], char bins[], pst t,  int* vi) {
+int traduci_ins(char sins[], char bins[], pst* t,  int* vi) {
     int stato = 0;
     if (sins[0] == '\0' || sins[0] == '(') {
         stato = 1;
     }
     else if (sins[0] == '@') {
         // a instruction
-        traduci_ains(sins, bins, t, vi);
+        *t = traduci_ains(sins, bins, *t, vi);
     } else {
         traduci_cins(sins, bins);
     }
@@ -95,7 +95,7 @@ void assembla(char fin[], char fout[]) {
         insestrai(linea);
 
         if (strlen(linea) > 0) {
-            int stato = traduci_ins(linea, bins, table, &vi);
+            int stato = traduci_ins(linea, bins, &table, &vi);
             if (stato == 0) {
                 fprintf(pfout, "%s\n", bins);
             }

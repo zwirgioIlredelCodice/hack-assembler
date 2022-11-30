@@ -36,8 +36,6 @@ pst traduci_ains(char sins[], char bins[], pst t,  int* vi) {
     if (sins[1] >= '0' && sins[1] <= '9') { // se @ seguita da un nymero es @12
         n = stoint(sins+1);
     } else {
-        
-        
         n = s_get(t, (sins+1));
         if (n == -1) { // non c'è nella tabella aggiungilo
             symbol* s = malloc(sizeof(symbol));

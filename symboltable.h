@@ -18,5 +18,6 @@ typedef symboltable* pst;
 pst s_insert(pst st, symbol* s);
 pst s_init();
 int s_get(pst st, char name[]);
+void s_stampa(pst st);
 
 #endif
