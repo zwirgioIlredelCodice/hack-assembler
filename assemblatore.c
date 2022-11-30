@@ -58,7 +58,7 @@ pst inserisci_etichette(char file[], pst table) {
         insestrai(linea);
         if (strlen(linea) > 0) {
             if (linea[0] == '(') {
-                char etichetta[20] = "";
+                char etichetta[200] = "";
                 estrai_etichetta(linea, etichetta);
 
                 symbol* s = malloc(sizeof(symbol));

@@ -1,7 +1,7 @@
 #ifndef SYMBOLTABLE
 #define SYMBOLTABLE
 
-#define DEFAULT_SYMBOLS 18
+#define DEFAULT_SYMBOLS 23
 
 typedef struct symbol {
     int value;

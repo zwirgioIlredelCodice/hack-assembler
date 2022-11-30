@@ -13,6 +13,11 @@ pst s_insert(pst st, symbol* s) {
 symbol ss[DEFAULT_SYMBOLS] = {
 {.value = 16384, .name = "SCREEN"},
 {.value = 24576, .name = "KBD"},
+{.value = 0, .name = "SP"},
+{.value = 1, .name = "LCL"},
+{.value = 2, .name = "ARG"},
+{.value = 3, .name = "THIS"},
+{.value = 4, .name = "THAT"},
 {.value = 0, .name = "R0"},
 {.value = 1, .name = "R1"},
 {.value = 2, .name = "R2"},
