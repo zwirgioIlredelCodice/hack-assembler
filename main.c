@@ -22,8 +22,6 @@ int main(int argc, char **argv) {
         char* infile = argv[1];
         char outfile[100] = "";
         nametohack(infile, outfile);
-        printf("lavoro sul file %s\n", infile);
-        printf("output sul file %s\n", outfile);
         assembla(infile, outfile);
     }
 }
